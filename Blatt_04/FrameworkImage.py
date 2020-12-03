@@ -16,13 +16,32 @@ def Compress(Image,ComponentCount):
               in Image and the number of scalars in the returned representation of 
               Image."""
     
+    U, Sigma ,V_T = np.linalg.svd(Image)
+    
+    res_U = U[:,:ComponetCount]
+    res_Sigma = Sigma[:ComponentCount]
+    res_V_T = V_T[:ComponentCount,:]
+    
+    add_1 = U.size + Sigma.size + V_T.size
+    add_2 = res_U.size + res_Sigma.size + res_V_T.size
+    comp = add_1 / add_2
+    
+    result_U = np.asmatrix(res_U)
+    result_Sigma = np.asmatrix(res_Sigma)
+    result_V_T = np.asmatrix(res_V_T)
+    
+    return result_U, result_Sigma, result_V_t, comp
+    
 
 
 def Decompress(U,SingularValues,V):
     """Given a compressed representation of an image as produced by Compress() this 
        function reconstructs the original image approximately and returns it."""
     
-
+    Sigma = np.diag(SingularValues)
+    result = U * Sigma *V
+    
+    return result
 
 
 if(__name__=="__main__"):
