@@ -18,7 +18,7 @@ def Compress(Image,ComponentCount):
     
     U, Sigma ,V_T = np.linalg.svd(Image)
     
-    res_U = U[:,:ComponetCount]
+    res_U = U[:,:ComponentCount]
     res_Sigma = Sigma[:ComponentCount]
     res_V_T = V_T[:ComponentCount,:]
     
@@ -30,7 +30,7 @@ def Compress(Image,ComponentCount):
     result_Sigma = np.asmatrix(res_Sigma)
     result_V_T = np.asmatrix(res_V_T)
     
-    return result_U, result_Sigma, result_V_t, comp
+    return result_U, result_Sigma, result_V_T, comp
     
 
 
