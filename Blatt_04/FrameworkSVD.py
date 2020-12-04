@@ -2,7 +2,7 @@ import numpy as np
 from numpy.linalg import eig
 import math 
 
-def RandVec(V):
+def Randomvector(V):
     b,n = V.shape
     v = np.random.rand(n)
     v = v / np.linalg.norm(v)
@@ -17,7 +17,7 @@ def ComputeSVD(A):
     a,b = V.shape
     V = np.transpose(V)
     for i in range(b,n):
-        V = np.append(V, RandVec(V))
+        V = np.append(V, RandomVector(V))
     V = np.transpose(V)
     #Sigma berechnen
     Sigma = np.zeros((m,n))
@@ -29,7 +29,7 @@ def ComputeSVD(A):
         U[:,i] = U[:,i] / Sigma[i,i]
     U = np.transpose(U)
     for i in range(m-n):
-        U = np.append(U,RandVec(U))
+        U = np.append(U,RandomVector(U))
     U = np.reshape(U, (m,m))
     U = np.transpose(U)
     return (U,Sigma,V.T)
