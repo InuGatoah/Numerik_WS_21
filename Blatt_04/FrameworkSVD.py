@@ -2,7 +2,7 @@ import numpy as np
 from numpy.linalg import eig
 import math 
 
-def Randomvector(V):
+def RandomVector(V):
     b,n = V.shape
     v = np.random.rand(n)
     v = v / np.linalg.norm(v)
