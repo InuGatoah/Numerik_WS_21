@@ -27,7 +27,7 @@ def Compress(Image,ComponentCount):
     comp = add_1 / add_2
     
     result_U = np.asmatrix(res_U)
-    result_Sigma = np.asmatrix(res_Sigma)
+    result_Sigma = np.asarray(res_Sigma)
     result_V_T = np.asmatrix(res_V_T)
     
     return result_U, result_Sigma, result_V_T, comp
