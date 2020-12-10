@@ -1,9 +1,22 @@
 import numpy as np
+from scipy import linalg
 
 def QR(A):
     """Given a matrix A with full column rank this function uses the classical 
        Gram-Schmidt algorithm to compute a QR decomposition. It returns a tuple 
        (Q,R) of np.matrix objects with Q having shape identical to A and Q*R=A."""
+    
+    n, m = A.shape
+    Q = np.zeros((n, m))
+    R = np.zeros((m, m))
+    
+    for j in range(m):
+        R[j, j] = np.linalg.norm(A[:, j:j+1].reshape(-1), 2)
+        Q[:, j:j+1] = A[:, j:j+1]/R[j, j]
+        R[j:j+1, j+1:m+1] = np.dot(Q[:, j:j+1].T, A[:, j+1:m+1])
+        A[:, j+1:m+1] = A[:, j+1:m+1] - np.dot(Q[:, j:j+1], R[j:j+1, j+1:m+1])
+        
+    return np.asmatrix(Q), np.asmatrix(R)     
 
 
 def BackSubstitution(R: np.matrix, y: np.ndarray):
