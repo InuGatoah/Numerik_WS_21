@@ -22,11 +22,27 @@ def QR(A):
 def BackSubstitution(R: np.matrix, y: np.ndarray):
     """Given a square upper triangular matrix R and a vector y of same size this 
        function solves R*x=y using backward substitution and returns x."""
+    
+    n, m = R.shape
+    x = np.zeros_like(y)
+    
+    for i in range(m):
+        x[i] = y[i] / R[i, i] 
+        y[1:i-1] = y[1:i-1, i] * x[i]
+        
+    return x
 
 
 def LeastSquares(A, b):
     """Given a matrix A and a vector b this function solves the least squares 
        problem of minimizing |A*x-b| and returns the optimal x."""
+    
+    Q, R = QR(A)
+    R  = BackSubstitution(R, b)
+    
+    x = np.linalg.inv(R) * R * b
+    
+    return x
 
 
 if(__name__ == "__main__"):
