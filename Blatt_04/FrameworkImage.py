@@ -22,16 +22,15 @@ def Compress(Image,ComponentCount):
     res_Sigma = Sigma[:ComponentCount]
     res_V_T = V_T[:ComponentCount,:]
     
-    add_1 = U.size + Sigma.size + V_T.size
-    add_2 = res_U.size + res_Sigma.size + res_V_T.size
+    add_1 = Image.size
+    add_2 = (Image.shape[0] * 2 + 1) * ComponentCount
     comp = add_1 / add_2
     
     result_U = np.asmatrix(res_U)
     result_Sigma = np.asarray(res_Sigma)
     result_V_T = np.asmatrix(res_V_T)
     
-    return result_U, result_Sigma, result_V_T, comp
-    
+    return result_U, result_Sigma, result_V_T, comp    
 
 
 def Decompress(U,SingularValues,V):
