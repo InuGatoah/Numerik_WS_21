@@ -4,6 +4,13 @@ from matplotlib import pyplot
 
 
 
+
+def RadialBasisFunction(X,Y,Center):
+    radius = np.sqrt((X - Center[0])**2 + (Y-Center[1])**2)
+
+    return np.log(np.maximum(raduis, 1.0e-10)) * Radius**2
+
+
 def ComputeTPSWeights(X,Y,Z):
     """This function constructs a thin plate spline interpolating the given three-
        dimensional points by means of a two-dimensional function. 
@@ -12,7 +19,13 @@ def ComputeTPSWeights(X,Y,Z):
       \return An array of shape identical to X where the i-th entry stores the 
               weight to be used for the radial basis function centered at 
               (X[i],Y[i])."""
-    
+    m = X.shape[0]
+    A = np.zeros([m, m])
+    for i in range(m):
+        A[:,i] = RadialBasisFunction(X, Y, (X[i], Y[i]))
+
+        return np.linalg.solve(A,Z)
+
 
 def EvaluateTPSSpline(XNew,YNew,X,Y,Weights):
     """Given the weights for a thin plate spline as returned by ComputeTPSWeights 
@@ -25,6 +38,7 @@ def EvaluateTPSSpline(XNew,YNew,X,Y,Weights):
       \return An array of shape identical to XNew containing the value of the thin 
               plate spline at the coordinates given by XNew and YNew."""
     
+
 
 
 if(__name__=="__main__"):
