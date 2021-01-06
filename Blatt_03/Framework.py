@@ -20,7 +20,7 @@ def ComputeTPSWeights(X,Y,Z):
               weight to be used for the radial basis function centered at 
               (X[i],Y[i])."""
     m = X.shape[0]
-    A = np.zeros([m, m])
+    A = np.zeros(shape = (m, m))
     for i in range(m):
         A[:,i] = RadialBasisFunction(X, Y, (X[i], Y[i]))
 
@@ -38,6 +38,10 @@ def EvaluateTPSSpline(XNew,YNew,X,Y,Weights):
       \return An array of shape identical to XNew containing the value of the thin 
               plate spline at the coordinates given by XNew and YNew."""
     
+    Z = np.zeros_like(XNew)
+    for i in range(X.shape[0]):
+        Z += Weights[i] * RadialBasisFunction(XNew, YNew, (X[i], Y[i]))
+        return Z
 
 
 
