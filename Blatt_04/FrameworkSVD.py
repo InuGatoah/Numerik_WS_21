@@ -10,29 +10,53 @@ def RandomVector(V):
 
 
 def ComputeSVD(A):
-    m,n = A.shape
-    B = np.dot(A.T, A)
-    w , V = np.linalg.eig(B)
-    #V berechnen
-    a,b = V.shape
-    V = np.transpose(V)
-    for i in range(b,n):
-        V = np.append(V, RandomVector(V))
-    V = np.transpose(V)
-    #Sigma berechnen
-    Sigma = np.zeros((m,n))
-    for i in range(min(n, w.size)):
-        Sigma[i,i] = math.sqrt(w[i])
-    #U berechnen
-    U = np.dot(A,V)
+
+    k = np.linalg.matrix_rank(A)
+    m, n = A.shape
+    B = A.T * A
+    w, v = eig(B)
+
+    #Sigma (Singular Values)
+    Sigma = np.zeros(A.shape)
     for i in range(n):
-        U[:,i] = U[:,i] / Sigma[i,i]
-    U = np.transpose(U)
-    for i in range(m-n):
-        U = np.append(U,RandomVector(U))
-    U = np.reshape(U, (m,m))
-    U = np.transpose(U)
-    return (U,Sigma,V.T)
+        Sigma[i,i] = np.sqrt(w[i])
+
+    #V
+    index = np.argsort(w)
+    w = w[index]
+    V = v[:, index]
+
+    #U
+    U = np.zeros((k+1, k+1))
+    for i in range(k):
+        U[:, i] = (1/Sigma[i][i] * A * V[:, i]).flat
+    U = np.linalg.qr(U)[0]
+
+    return(U, Sigma, V)
+
+   # m,n = A.shape
+   # B = np.dot(A.T, A)
+   # w , V = np.linalg.eig(B)
+   # #V berechnen
+   # a,b = V.shape
+   # V = np.transpose(V)
+   # for i in range(b,n):
+   #     V = np.append(V, RandomVector(V))
+   # V = np.transpose(V)
+   # #Sigma berechnen
+   # Sigma = np.zeros((m,n))
+   # for i in range(min(n, w.size)):
+   #     Sigma[i,i] = math.sqrt(w[i])
+   # #U berechnen
+   # U = np.dot(A,V)
+   # for i in range(n):
+   #     U[:,i] = U[:,i] / Sigma[i,i]
+   # U = np.transpose(U)
+   # for i in range(m-n):
+   #     U = np.append(U,RandomVector(U))
+   # U = np.reshape(U, (m,m))
+   # U = np.transpose(U)
+   # return (U,Sigma,V.T)
 
 
 def PseudoInverse(A):
