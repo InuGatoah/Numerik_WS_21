@@ -8,7 +8,7 @@ from matplotlib import pyplot
 def RadialBasisFunction(X,Y,Center):
     radius = np.sqrt((X - Center[0])**2 + (Y-Center[1])**2)
 
-    return np.log(np.maximum(raduis, 1.0e-10)) * Radius**2
+    return np.log(np.maximum(radius, 1.0e-10)) * radius**2
 
 
 def ComputeTPSWeights(X,Y,Z):
