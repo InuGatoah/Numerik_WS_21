@@ -50,11 +50,9 @@ def LeastSquares(A, b):
        problem of minimizing |A*x-b| and returns the optimal x."""
     
     Q, R = QR(A)
-    R  = BackSubstitution(R, b)
+    R  = BackSubstitution(R, Q.H * b)
     
-    x = np.linalg.inv(R) * R * b
-    
-    return x
+    return R
 
 
 if(__name__ == "__main__"):
