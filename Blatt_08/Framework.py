@@ -33,7 +33,7 @@ def BackSubstitution(U,b):
     x[n-1] = b[n-1] / U[n-1, n-1]
 
     for i in range(0, n-2):
-        x[i] = (b[i] - sum([U[i,j] * x[j] for j in range(i+1, n-1)])) / U[i. i]
+        x[i] = (b[i] - sum([U[i,j] * x[j] for j in range(i+1, n-1)])) / U[i, i]
 
     return x
     
@@ -42,7 +42,14 @@ def SolveLinearSystemLUP(A,b):
     """Given a square array A and a matching vector b this function solves the 
        linear system of equations A*x=b using a pivoted LU decomposition and returns 
        x."""
-    
+   
+    L, U, P = LUP(A)
+
+    z = ForwardSubstitution(L,b)
+    x = BackSubstitution(U,z)
+
+    return x
+
 
 def LeastSquares(A,b):
     """Given a matrix A and a vector b this function solves the least squares 
