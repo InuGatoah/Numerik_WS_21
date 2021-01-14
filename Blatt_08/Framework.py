@@ -17,6 +17,7 @@ def ForwardSubstitution(L,b):
    
     x = np.zeros_like(A)
     x[0] = b[0] / L[0,0]
+
     for i in range (1, len(b)):
         x[i] = b[i] - sum([L[i, j] * x[j] for j in range(1,i)])
     
@@ -27,6 +28,14 @@ def BackSubstitution(U,b):
     """Solves the linear system of equations U*x=b assuming that U is a right upper 
        triangular matrix. It returns x as column vector."""
     
+    x = np.zeros_like(A)
+    n = len(x)
+    x[n-1] = b[n-1] / U[n-1, n-1]
+
+    for i in range(0, n-2):
+        x[i] = (b[i] - sum([U[i,j] * x[j] for j in range(i+1, n-1)])) / U[i. i]
+
+    return x
     
 	
 def SolveLinearSystemLUP(A,b):
