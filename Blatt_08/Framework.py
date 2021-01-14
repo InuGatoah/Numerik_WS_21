@@ -1,20 +1,32 @@
 import numpy as np
+import scipy.linalg 
   
 
 def LUP(A):
     """Computes and returns an LU decomposition with pivoting. The return value  
        is a tuple (L,U,P) and fulfills L*U=P*A (* is matrix-multiplication)."""
-    
+   
+    P,L,U = scipy.linalg.lu(A)
+
+    return (L, U, P)
+
 
 def ForwardSubstitution(L,b):
     """Solves the linear system of equations L*x=b assuming that L is a left lower 
        triangular matrix. It returns x as column vector."""
+   
+    x = np.zeros_like(A)
+    x[0] = b[0] / L[0,0]
+    for i in range (1, len(b)):
+        x[i] = b[i] - sum([L[i, j] * x[j] for j in range(1,i)])
     
+    return x
 
 
 def BackSubstitution(U,b):
     """Solves the linear system of equations U*x=b assuming that U is a right upper 
        triangular matrix. It returns x as column vector."""
+    
     
 	
 def SolveLinearSystemLUP(A,b):
