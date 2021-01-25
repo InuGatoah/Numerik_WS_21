@@ -6,34 +6,47 @@ def LUP(A):
     """Computes and returns an LU decomposition with pivoting. The return value  
        is a tuple (L,U,P) and fulfills L*U=P*A (* is matrix-multiplication)."""
    
-    P,L,U = scipy.linalg.lu(A)
+    row, col = np.shape(A)
+    U = np.copy(A)
+    L = np.eye(row)
+    P = np.eye(row)
 
-    return (L, U, P)
+    for k in range(row-1):
+        i = k + np.argmax(abs(U[k:, k]))
+        U[[k, i], k:] = U[[i, k], k:]
+        L[[k, i], :k] = L[[i, k], :k]
+        P[[k, i], :] = P[[i, k], :]
+
+        for j in range(k+1, row):
+            L[j, k] = U[j, k] / U[k, k]
+            U[j, k] = U[j, k:] - (L[j, k] * U[k, k:])
+
+    return L, U, P
 
 
 def ForwardSubstitution(L,b):
     """Solves the linear system of equations L*x=b assuming that L is a left lower 
        triangular matrix. It returns x as column vector."""
    
-    x = np.zeros_like(A)
-    x[0] = b[0] / L[0,0]
-
-    for i in range (1, len(b)):
-        x[i] = b[i] - sum([L[i, j] * x[j] for j in range(1,i)])
+    row, col = np.shape(L)
+    x = np.zero((col, 1))
     
-    return x
+    for i in range(col):
+        x[i, 0] = b[i, 0] / L[i, i]
+        b[i+1:, 0] = b[i+1:, 0] - L[i+1:, i] * x[i, 0]
 
+    return x
 
 def BackSubstitution(U,b):
     """Solves the linear system of equations U*x=b assuming that U is a right upper 
        triangular matrix. It returns x as column vector."""
     
-    x = np.zeros_like(A)
-    n = len(x)
-    x[n-1] = b[n-1] / U[n-1, n-1]
+    row, col = np.shape(U)
+    x = np.zeros((col, 1))
 
-    for i in range(0, n-2):
-        x[i] = (b[i] - sum([U[i,j] * x[j] for j in range(i+1, n-1)])) / U[i, i]
+    for i in range(col-1, -1, -1):
+        x[i, 0] = b[1, 0] / U[i, i]
+        b[:i, 0] = b[:i, 0] - U[:i, i] * x[i, 0]
 
     return x
     
