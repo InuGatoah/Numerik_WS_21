@@ -2,7 +2,11 @@ import numpy as np
 
 def QRAlgorithm(Matrix):
     """Computes the Eigenvalues of the given matrix and returns them."""
-    
+   
+    Matrix.all()
+    Q, R = np.linalg.qr(Matrix)
+
+    return Q, R
 
 if(__name__=="__main__"):
     Matrix=np.random.rand(5,5);
