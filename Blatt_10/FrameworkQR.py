@@ -3,7 +3,7 @@ import numpy as np
 def QRAlgorithm(Matrix):
     """Computes the Eigenvalues of the given matrix and returns them."""
    
-    Matrix.all()
+    
     Q, R = np.linalg.qr(Matrix)
 
     return Q, R
