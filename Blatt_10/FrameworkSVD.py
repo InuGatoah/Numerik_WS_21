@@ -9,7 +9,15 @@ def ComputeSVD(A):
               U.dot(Sigma).dot(np.conj(V.T)) provides a singular value decomposition 
               of A. The singular values should be in descending order."""
     
+    H = np.dot(np.transpose(A), A)
+    
+    U, S, V = np.linalg.svd(H)
 
+    S = np.linalg.norm(S)
+
+
+
+    return U, S, V
 
 def VerifySVD(A,U,Sigma,V):
     """This function checks whether the given square matrices provide an SVD of the 
